@@ -1,4 +1,5 @@
 import AppRoutes from './routes/Index'
+import { ProjectProvider } from "./context/ProjectContext";
 
 export default function App() {
   return <AppRoutes />

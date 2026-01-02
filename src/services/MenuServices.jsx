@@ -5,14 +5,14 @@ export const menus = [
         icon: 'settings',
         children: [
             {
-                name: 'Router [ NAS ]',
+                name: 'Router',
                 route: '/settings/router'
             }
         ]
     },
     {
         id: 2,
-        name: 'ODP | POP Data',
+        name: 'POP Data',
         icon: 'layers',
         route: '/odp-pop'
     },

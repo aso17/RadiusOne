@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { LogOut, User, Settings } from 'lucide-react'
 
 export default function Topbar({ onToggleSidebar }) {
+
     const [open, setOpen] = useState(false)
 
     return (
