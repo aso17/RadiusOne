@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 
 Route::middleware('api-public')->group(function () {
     Route::get('/ping', fn () => response()->json(['status' => 'ok']));
+    
     Route::get('/project-info', [ProjectInfoController::class, 'show']);
 });
 
