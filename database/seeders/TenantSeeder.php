@@ -3,16 +3,14 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
-
+use App\Models\ms_tenant as Tenant;
 class TenantSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('_ms_tenants')->insert([
+        Tenant::insert([
             [
-                'tenant_name'   => 'Radius One',
+                'name'          => 'Radius One',
                 'slug'          => 'radiusone',
                 'code'          => 'R001',
                 'domain'        => 'localhost',
@@ -22,13 +20,13 @@ class TenantSeeder extends Seeder
                 'theme'         => 'light',
 
                 'is_active'     => true,
-                'updateBy'      => 'system',
 
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
+                // SYSTEM
+                'created_by'    => null,
+                'updated_by'    => null,
             ],
             [
-                'tenant_name'   => 'Finance App',
+                'name'          => 'Finance App',
                 'slug'          => 'finance',
                 'code'          => 'F001',
                 'domain'        => 'finance.test',
@@ -38,13 +36,12 @@ class TenantSeeder extends Seeder
                 'theme'         => 'light',
 
                 'is_active'     => true,
-                'updateBy'      => 'system',
 
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
+                'created_by'    => null,
+                'updated_by'    => null,
             ],
             [
-                'tenant_name'   => 'HRIS System',
+                'name'          => 'HRIS System',
                 'slug'          => 'hris',
                 'code'          => 'H001',
                 'domain'        => 'hris.test',
@@ -54,13 +51,12 @@ class TenantSeeder extends Seeder
                 'theme'         => 'light',
 
                 'is_active'     => true,
-                'updateBy'      => 'system',
 
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
+                'created_by'    => null,
+                'updated_by'    => null,
             ],
             [
-                'tenant_name'   => 'Inventory Pro',
+                'name'          => 'Inventory Pro',
                 'slug'          => 'inventory',
                 'code'          => 'I001',
                 'domain'        => 'inventory.test',
@@ -70,13 +66,12 @@ class TenantSeeder extends Seeder
                 'theme'         => 'dark',
 
                 'is_active'     => true,
-                'updateBy'      => 'system',
 
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
+                'created_by'    => null,
+                'updated_by'    => null,
             ],
             [
-                'tenant_name'   => 'CRM Plus',
+                'name'          => 'CRM Plus',
                 'slug'          => 'crm',
                 'code'          => 'C001',
                 'domain'        => 'crm.test',
@@ -85,11 +80,10 @@ class TenantSeeder extends Seeder
                 'primary_color' => '#0EA5E9',
                 'theme'         => 'light',
 
-                'is_active'     => false, // contoh tenant nonaktif
-                'updateBy'      => 'system',
+                'is_active'     => false,
 
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
+                'created_by'    => null,
+                'updated_by'    => null,
             ],
         ]);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tenant;
+use App\Models\ms_tenant as Tenant;
 use Illuminate\Http\Request;
 
 class ProjectInfoController extends Controller
