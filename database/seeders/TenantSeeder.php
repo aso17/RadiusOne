@@ -15,7 +15,7 @@ class TenantSeeder extends Seeder
                 'code'          => 'R001',
                 'domain'        => 'localhost',
 
-                'logo_path'     => '/logos/radiusone.png',
+                'logo_path'     => '/projects/radiusone/logo.png',
                 'primary_color' => '#2563EB',
                 'theme'         => 'light',
 
@@ -31,7 +31,7 @@ class TenantSeeder extends Seeder
                 'code'          => 'F001',
                 'domain'        => 'finance.test',
 
-                'logo_path'     => '/logos/finance.png',
+                'logo_path'     => '/projects/radiusone/logo.png',
                 'primary_color' => '#16A34A',
                 'theme'         => 'light',
 

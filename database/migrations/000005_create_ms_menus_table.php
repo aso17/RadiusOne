@@ -11,10 +11,16 @@ return new class extends Migration
         Schema::create('ms_menus', function (Blueprint $table) {
             $table->id();
 
-            // Relation
+            // Module relation
             $table->foreignId('module_id')
                   ->constrained('ms_modules')
                   ->cascadeOnDelete();
+
+            // 🔥 Parent menu (SELF RELATION)
+            $table->foreignId('parent_id')
+                  ->nullable()
+                  ->constrained('ms_menus')
+                  ->nullOnDelete();
 
             // Identity
             $table->string('menu_name', 100);

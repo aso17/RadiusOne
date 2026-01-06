@@ -22,7 +22,7 @@ class ProjectInfoController extends Controller
         }
 
         return response()->json([
-            'name'          => $tenant->tenant_name,
+            'name'          => $tenant->name,
             'logo_url'      => $tenant->logo_path
                                 ? asset("storage/{$tenant->logo_path}")
                                 : null,

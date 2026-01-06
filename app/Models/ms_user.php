@@ -1,48 +1,33 @@
 <?php
-
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens; // ✅ Tambahkan ini
+
 class ms_user extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens; // ✅ Tambahkan HasApiTokens
 
-    /**
-     * Explicit table name
-     */
     protected $table = 'ms_users';
 
-    /**
-     * Mass assignable attributes
-     */
     protected $fillable = [
         'name',
         'email',
         'username',
         'password',
-
         'is_active',
-
         'role_id',
         'tenant_id',
-
         'last_login_at',
         'last_login_ip',
     ];
 
-    /**
-     * Hidden attributes
-     */
     protected $hidden = [
         'password',
     ];
 
-    /**
-     * Casts
-     */
     protected function casts(): array
     {
         return [
@@ -52,12 +37,6 @@ class ms_user extends Authenticatable
             'password'          => 'hashed',
         ];
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
 
     public function role()
     {
