@@ -1,13 +1,8 @@
-import AppRoutes from './routes/Index'
-import { ProjectProvider } from "./context/ProjectContext";
+import AppRoutes from "./routes/Index";
 
 export default function App() {
-  return <AppRoutes />
+  return <AppRoutes />;
 }
-
-
-
-
 
 // import { useState } from 'react'
 // import Todo from './components/Todo'
