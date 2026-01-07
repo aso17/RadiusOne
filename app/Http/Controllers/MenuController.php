@@ -7,8 +7,7 @@ class MenuController extends Controller
 {
     public function menus(Request $request)
     {
-        $user = $request->user();
-
+        $user = $request->user();      
         return response()->json([
             'menus' => MenuService::getMenuByRole($user->role_id)
         ]);

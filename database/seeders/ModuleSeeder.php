@@ -14,32 +14,25 @@ class ModuleSeeder extends Seeder
 
         DB::table('ms_modules')->insert([
             [
-                'module_name' => 'Users Session',
-                'code'        => 'USERS',
-                'is_active'   => true,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'module_name' => 'Main',
+                'code' => 'MAIN',
+                'is_active' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
-                'module_name' => 'App Settings',
-                'code'        => 'SETTINGS',
-                'is_active'   => true,
-                'created_at'  => $now,
-                'updated_at'  => $now,
-            ],
-            [
-                'module_name' => 'Finance',
-                'code'        => 'FINANCE',
-                'is_active'   => true,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'module_name' => 'Voucher',
+                'code' => 'VOUCHER',
+                'is_active' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
             [
                 'module_name' => 'System',
-                'code'        => 'SYSTEM',
-                'is_active'   => true,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'code' => 'SYSTEM',
+                'is_active' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
             ],
         ]);
     }

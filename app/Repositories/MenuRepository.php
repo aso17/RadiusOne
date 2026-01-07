@@ -10,7 +10,6 @@ class MenuRepository
         return DB::table('ms_role_menu_permissions as rp')
             ->join('ms_menus as m', 'm.id', '=', 'rp.menu_id')
             ->join('ms_modules as mo', 'mo.id', '=', 'rp.module_id')
-            ->leftJoin('ms_sub_menus as sm', 'sm.id', '=', 'rp.sub_menu_id')
             ->where('rp.role_id', $roleId)
             ->where('rp.is_active', true)
             ->where('m.is_active', true)
@@ -27,11 +26,6 @@ class MenuRepository
                 'm.parent_id',
                 'm.order_no',
 
-                'sm.id   as sub_menu_id',
-                'sm.code as sub_menu_code',
-                'sm.sub_menu_name',
-                'sm.route_name as sub_route',
-
                 'rp.can_view',
                 'rp.can_create',
                 'rp.can_update',
@@ -40,7 +34,6 @@ class MenuRepository
             ])
             ->orderBy('mo.id')
             ->orderBy('m.order_no')
-            ->orderBy('sm.order_no')
             ->get();
     }
 }

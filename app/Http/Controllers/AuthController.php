@@ -14,18 +14,28 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = MsUser::where('email', $request->email)
+       $user = MsUser::select(
+            'id',
+            'name',
+            'email',
+            'password',
+            'role_id',
+            'tenant_id'
+            ) 
+            ->with([
+                    'tenant:id,slug,logo_path'
+                ])
+            ->where('email', $request->email)
             ->where('is_active', true)
             ->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['Email atau password salah'],
+                'message' => ['Invalid email or password'],
             ]);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
-
         $user->update([
             'last_login_at' => now(),
             'last_login_ip' => $request->ip(),
@@ -39,8 +49,20 @@ class AuthController extends Controller
                 'email'     => $user->email,
                 'role_id'   => $user->role_id,
                 'tenant_id' => $user->tenant_id,
+                'tenant' => [
+                    'slug' => $user->tenant->slug ?? null,
+                    'logo' => $user->tenant->logo_path ?? null,
+                ],
             ],
         ]);
+
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logged out successfully']);
     }
 
 }
