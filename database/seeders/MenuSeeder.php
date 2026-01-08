@@ -13,30 +13,26 @@ class MenuSeeder extends Seeder
         $now = Carbon::now();
 
         $mainModuleId    = DB::table('ms_modules')->where('code', 'MAIN')->value('id');
-        $voucherModuleId = DB::table('ms_modules')->where('code', 'VOUCHER')->value('id');
         $systemModuleId  = DB::table('ms_modules')->where('code', 'SYSTEM')->value('id');
 
         /*
         |--------------------------------------------------------------------------
-        | MAIN MENU (FLAT)
+        | MAIN MENU (FLAT SAJA)
         |--------------------------------------------------------------------------
         */
-        $mainMenus = [
-            ['DASHBOARD', 'Dashboard', 'home', '/dashboard'],
-            ['ROUTER', 'Router', 'layers', '/router'],
-            ['MITRA', 'Mitra', 'user-plus', '/mitra'],
-            ['MAP', 'Map', 'globe', '/map'],
-            ['OLT', 'OLT', 'tag', '/olt'],
-            ['GENIE_ACS', 'GenieACS', 'dollar-sign', '/genieacs'],
-            ['ODP', 'ODP', 'file-text', '/odp'],
-            ['TIKET', 'Tiket', 'life-buoy', '/tiket'],
-            ['BILLING', 'Billing', 'credit-card', '/billing'],
-            ['TRANSAKSI', 'Transaksi', 'dollar-sign', '/transaksi'],
-            ['WHATSAPP', 'WhatsApp', 'message-circle', '/whatsapp'],
+        $flatMenus = [
+            ['DASHBOARD', 'Dashboard', 'home', '/', 1],
+            ['ROUTER', 'Router', 'server', '/servernas', 2],
+            ['MITRA', 'Mitra', 'users', '/mitra', 3],
+            ['OLT', 'OLT', 'grid', '/olt', 7],
+            ['GENIE_ACS', 'GenieACS', 'settings-2', '/genieacs', 8],
+            ['ODP', 'ODP', 'box', '/odp', 9],
+            ['TIKET', 'Tiket', 'ticket', '/tiket', 10],
+            ['TRANSAKSI', 'Transaksi', 'shuffle', '/transaksi', 12],
+            ['WHATSAPP', 'WhatsApp', 'message-circle', '/whatsapp', 13],
         ];
 
-        $order = 1;
-        foreach ($mainMenus as $menu) {
+        foreach ($flatMenus as $menu) {
             DB::table('ms_menus')->insert([
                 'module_id'  => $mainModuleId,
                 'code'       => $menu[0],
@@ -44,7 +40,49 @@ class MenuSeeder extends Seeder
                 'icon'       => $menu[2],
                 'route_name' => $menu[3],
                 'parent_id'  => null,
-                'order_no'   => $order++,
+                'order_no'   => $menu[4],
+                'is_active'  => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | VOUCHER (PARENT + CHILD)
+        |--------------------------------------------------------------------------
+        */
+        $voucherId = DB::table('ms_menus')->insertGetId([
+            'module_id'  => $mainModuleId,
+            'code'       => 'VOUCHER',
+            'menu_name'  => 'Voucher',
+            'icon'       => 'wifi',
+            'route_name' => null,
+            'parent_id'  => null,
+            'order_no'   => 4,
+            'is_active'  => true,
+            'created_at' => $now,
+            'updated_at' => $now,
+        ]);
+
+        $voucherChildren = [
+            ['VOUCHER_PROFILE', 'Profile Voucher', '/voucher'],
+            ['VOUCHER_STOCK', 'Stok Voucher', '/stock'],
+            ['VOUCHER_SOLD', 'Voucher Terjual', '/sold'],
+            ['VOUCHER_ONLINE', 'Voucher Online', 'online'],
+            ['VOUCHER_RECAP', 'Rekap Voucher', '/recap'],
+            ['VOUCHER_TEMPLATE', 'Template Manager', '/vouchertemplate'],
+        ];
+
+        foreach ($voucherChildren as $i => $child) {
+            DB::table('ms_menus')->insert([
+                'module_id'  => $mainModuleId,
+                'code'       => $child[0],
+                'menu_name'  => $child[1],
+                'icon'       => 'circle',
+                'route_name' => $child[2],
+                'parent_id'  => $voucherId,
+                'order_no'   => $i + 1,
                 'is_active'  => true,
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -60,10 +98,10 @@ class MenuSeeder extends Seeder
             'module_id'  => $mainModuleId,
             'code'       => 'LANGGANAN',
             'menu_name'  => 'Langganan',
-            'icon'       => 'send',
+            'icon'       => 'user-check',
             'route_name' => null,
             'parent_id'  => null,
-            'order_no'   => 4,
+            'order_no'   => 5,
             'is_active'  => true,
             'created_at' => $now,
             'updated_at' => $now,
@@ -72,20 +110,19 @@ class MenuSeeder extends Seeder
         $langgananChildren = [
             ['PROFILE_PELANGGAN', 'Profile Pelanggan', '/langganan/profile'],
             ['DATA_PELANGGAN', 'Data Pelanggan', '/langganan/data'],
-            ['STOP_BERLANGGAN', ' Stop Berlanggan', '/langganan/stop'],
+            ['STOP_BERLANGGAN', 'Stop Berlanggan', '/langganan/stop'],
             ['ONLINE_LANGGANAN', 'Langganan Online', '/langganan/online'],
         ];
 
-        $childOrder = 1;
-        foreach ($langgananChildren as $child) {
+        foreach ($langgananChildren as $i => $child) {
             DB::table('ms_menus')->insert([
                 'module_id'  => $mainModuleId,
                 'code'       => $child[0],
                 'menu_name'  => $child[1],
-                'icon'       => 'dot',
+                'icon'       => 'circle',
                 'route_name' => $child[2],
                 'parent_id'  => $langgananId,
-                'order_no'   => $childOrder++,
+                'order_no'   => $i + 1,
                 'is_active'  => true,
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -94,41 +131,36 @@ class MenuSeeder extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | VOUCHER (PARENT + CHILD)
+        | MAP (PARENT + CHILD)
         |--------------------------------------------------------------------------
         */
-        $voucherId = DB::table('ms_menus')->insertGetId([
-            'module_id'  => $voucherModuleId,
-            'code'       => 'VOUCHER',
-            'menu_name'  => 'Voucher',
-            'icon'       => 'wifi',
+        $mapId = DB::table('ms_menus')->insertGetId([
+            'module_id'  => $mainModuleId,
+            'code'       => 'MAP',
+            'menu_name'  => 'Map',
+            'icon'       => 'map-pin',
             'route_name' => null,
             'parent_id'  => null,
-            'order_no'   => 4,
+            'order_no'   => 6,
             'is_active'  => true,
             'created_at' => $now,
             'updated_at' => $now,
         ]);
 
-        $voucherChildren = [
-            ['VOUCHER_PROFILE', 'Profile Voucher', '/voucher/profile'],
-            ['VOUCHER_STOCK', 'Stok Voucher', '/voucher/stock'],
-            ['VOUCHER_SOLD', 'Voucher Terjual', '/voucher/sold'],
-            ['VOUCHER_ONLINE', 'Voucher Online', '/voucher/online'],
-            ['VOUCHER_RECAP', 'Rekap Voucher', '/voucher/recap'],
-            ['VOUCHER_TEMPLATE', 'Template Manager', '/voucher/template'],
+        $mapChildren = [
+            ['MAP_PELANGGAN', 'Map pelanggan', '/map/pelanggan'],
+            ['MAP_ODP', 'Map ODP', '/map/odp'],
         ];
 
-        $childOrder = 1;
-        foreach ($voucherChildren as $child) {
+        foreach ($mapChildren as $i => $child) {
             DB::table('ms_menus')->insert([
-                'module_id'  => $voucherModuleId,
+                'module_id'  => $mainModuleId,
                 'code'       => $child[0],
                 'menu_name'  => $child[1],
-                'icon'       => 'dot',
+                'icon'       => 'circle',
                 'route_name' => $child[2],
-                'parent_id'  => $voucherId,
-                'order_no'   => $childOrder++,
+                'parent_id'  => $mapId,
+                'order_no'   => $i + 1,
                 'is_active'  => true,
                 'created_at' => $now,
                 'updated_at' => $now,
@@ -137,58 +169,70 @@ class MenuSeeder extends Seeder
 
         /*
         |--------------------------------------------------------------------------
-        | SYSTEM
+        | BILLING (PARENT + CHILD)
         |--------------------------------------------------------------------------
         */
-        DB::table('ms_menus')->insert([
-            [
-                'module_id' => $systemModuleId,
-                'code' => 'SETTING',
-                'menu_name' => 'Setting',
-                'icon' => 'settings',
-                'route_name' => '/setting',
-                'parent_id' => null,
-                'order_no' => 20,
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'module_id' => $systemModuleId,
-                'code' => 'TOOLS',
-                'menu_name' => 'Tools',
-                'icon' => 'tool',
-                'route_name' => '/tools',
-                'parent_id' => null,
-                'order_no' => 21,
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'module_id' => $systemModuleId,
-                'code' => 'ADMIN',
-                'menu_name' => 'Admin',
-                'icon' => 'user-cog',
-                'route_name' => '/admin',
-                'parent_id' => null,
-                'order_no' => 22,
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'module_id' => $systemModuleId,
-                'code' => 'LOGS',
-                'menu_name' => 'Logs',
-                'icon' => 'info',
-                'route_name' => '/logs',
-                'parent_id' => null,
-                'order_no' => 23,
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
+        $billingId = DB::table('ms_menus')->insertGetId([
+            'module_id'  => $mainModuleId,
+            'code'       => 'BILLING',
+            'menu_name'  => 'Billing',
+            'icon'       => 'credit-card',
+            'route_name' => null,
+            'parent_id'  => null,
+            'order_no'   => 11,
+            'is_active'  => true,
+            'created_at' => $now,
+            'updated_at' => $now,
         ]);
+
+        $billingChildren = [
+            ['BILLING_INVOICE_UNPAID', 'Invoice unpaid', '/billing/invoice-unpaid'],
+            ['BILLING_INVOICE_PAID', 'Invoice paid', '/billing/invoice-paid'],
+            ['BILLING_TOPUP', 'TopUp saldo', '/billing/topup'],
+            ['BILLING_MUTASI', 'Mutasi saldo', '/billing/mutasi'],
+            ['BILLING_KUPON', 'Kupon diskon', '/billing/kupon'],
+        ];
+
+        foreach ($billingChildren as $i => $child) {
+            DB::table('ms_menus')->insert([
+                'module_id'  => $mainModuleId,
+                'code'       => $child[0],
+                'menu_name'  => $child[1],
+                'icon'       => 'circle',
+                'route_name' => $child[2],
+                'parent_id'  => $billingId,
+                'order_no'   => $i + 1,
+                'is_active'  => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | SYSTEM (BAGIAN BAWAH)
+        |--------------------------------------------------------------------------
+        */
+        $systemMenus = [
+            ['SETTING', 'Setting', 'settings', '/setting', 20],
+            ['TOOLS', 'Tools', 'tool', '/tools', 21],
+            ['ADMIN', 'Admin', 'user-cog', '/admin', 22],
+            ['LOGS', 'Logs', 'info', '/logs', 23],
+        ];
+
+        foreach ($systemMenus as $menu) {
+            DB::table('ms_menus')->insert([
+                'module_id'  => $systemModuleId,
+                'code'       => $menu[0],
+                'menu_name'  => $menu[1],
+                'icon'       => $menu[2],
+                'route_name' => $menu[3],
+                'parent_id'  => null,
+                'order_no'   => $menu[4],
+                'is_active'  => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
     }
 }

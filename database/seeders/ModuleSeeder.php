@@ -11,7 +11,6 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         $now = Carbon::now();
-
         DB::table('ms_modules')->insert([
             [
                 'module_name' => 'Main',
@@ -20,13 +19,7 @@ class ModuleSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
-            [
-                'module_name' => 'Voucher',
-                'code' => 'VOUCHER',
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
+          
             [
                 'module_name' => 'System',
                 'code' => 'SYSTEM',
