@@ -1,6 +1,7 @@
 import {
   Settings,
   Layers,
+  Shuffle,
   Send,
   UserPlus,
   CreditCard,
@@ -19,29 +20,46 @@ import {
   Box,
   LifeBuoy,
   MessageCircle,
-  Circle, // <- ini untuk child menu "dot"
+  Circle,
+  Ticket,
+  Wrench,
+  UserCog,
+  Info,
+  MapPin,
 } from "lucide-react";
-
 export const icons = {
-  settings: Settings,
-  layers: Layers,
-  send: Send,
-  "user-plus": UserPlus,
-  "credit-card": CreditCard,
-  "file-text": FileText,
-  "dollar-sign": DollarSign,
-  globe: Globe,
-  tag: Tag,
-  chevron: ChevronRight, // untuk parent menu
   home: Home,
   server: Server,
   users: Users,
-  "user-check": UserCheck,
   map: Map,
+  "map-pin": MapPin,
+  shuffle: Shuffle,
+
+  settings: Settings,
+  "settings-2": Settings, // alias supaya aman
+
+  ticket: Ticket,
+  tool: Wrench,
+  "user-cog": UserCog,
+  info: Info,
+
+  send: Send,
+  "user-plus": UserPlus,
+  "user-check": UserCheck,
+
+  "credit-card": CreditCard,
+  "file-text": FileText,
+  "dollar-sign": DollarSign,
+
+  globe: Globe,
+  tag: Tag,
   grid: Grid,
   wifi: Wifi,
   box: Box,
+
   "life-buoy": LifeBuoy,
   "message-circle": MessageCircle,
-  dot: Circle, // <- icon titik besar untuk child menu
+
+  chevron: ChevronRight,
+  dot: Circle,
 };
