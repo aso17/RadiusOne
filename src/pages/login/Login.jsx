@@ -49,7 +49,7 @@ export default function Login() {
         {/* Logo - Slightly smaller to match card size */}
         <div className="flex justify-center mb-5">
           <img
-            src={project?.logo_url}
+            src={project?.logo_path}
             alt={project?.name}
             className="h-14 md:h-16 object-contain"
           />

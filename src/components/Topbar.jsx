@@ -31,15 +31,21 @@ export default function Topbar({ onToggleSidebar }) {
       <div className="relative">
         <div
           onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center gap-2 cursor-pointer select-none"
         >
           <img
-            src="https://i.pravatar.cc/40"
-            className="w-8 h-8 rounded-full"
+            src={
+              user?.avatar
+                ? `${import.meta.env.VITE_API_URL}/storage/${user.avatar}`
+                : "/default-avatar.png"
+            }
+            className="w-8 h-8 rounded-full object-cover"
             alt="avatar"
           />
-          {/* Gunakan nama dari context agar dinamis */}
-          <span className="text-sm font-medium">{user?.name || "User"}</span>
+
+          <span className="text-sm font-medium">
+            {user?.full_name || "User"}
+          </span>
         </div>
 
         {open && (
@@ -52,7 +58,7 @@ export default function Topbar({ onToggleSidebar }) {
             </button>
             <hr />
             <button
-              onClick={handleLogout} // Tambahkan ini
+              onClick={handleLogout}
               className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
             >
               <LogOut size={16} /> Logout

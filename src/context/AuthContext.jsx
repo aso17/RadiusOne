@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(data.user));
       // 🔑 simpan branding tenant
       localStorage.setItem("project_name", data.user.tenant.slug);
-      localStorage.setItem("project_logo", data.user.tenant.logo);
+      localStorage.setItem("project_logo_path", data.user.tenant.logo_path);
 
       setUser(data.user);
 
@@ -66,11 +66,11 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("access_token");
       localStorage.removeItem("user");
       localStorage.removeItem("project_name");
-      localStorage.removeItem("project_logo");
+      localStorage.removeItem("project_logo_path");
 
       setUser(null);
       setMenus([]);
-      // Reset ref agar jika login kembali tanpa reload, siklus init bisa diulang jika perlu
+
       isInitialized.current = false;
       await getProjectInfo();
     }
