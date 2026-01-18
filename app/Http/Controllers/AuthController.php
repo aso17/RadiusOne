@@ -16,7 +16,7 @@ class AuthController extends Controller
 
        $user = MsUser::select(
             'id',
-            'name',
+            'full_name',
             'email',
             'password',
             'role_id',
@@ -45,13 +45,15 @@ class AuthController extends Controller
             'token' => $token,
             'user'  => [
                 'id'        => $user->id,
-                'name'      => $user->name,
+                'full_name' => $user->full_name,
                 'email'     => $user->email,
                 'role_id'   => $user->role_id,
                 'tenant_id' => $user->tenant_id,
                 'tenant' => [
                     'slug' => $user->tenant->slug ?? null,
-                    'logo' => $user->tenant->logo_path ?? null,
+                     'logo_path'      => $user->tenant->logo_path
+                        ? asset("storage/{$user->tenant->logo_path}")
+                        : null,
                 ],
             ],
         ]);

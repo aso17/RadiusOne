@@ -11,36 +11,37 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('ms_users', function (Blueprint $table) {
-            $table->id();
+        Schema::create('ms_users', function (Blueprint $table) {
+            $table->bigIncrements('id'); 
+            $table->string('full_name', 100);
+            $table->string('email', 150)->unique();
+            $table->string('username', 50)->unique()->nullable();
+            $table->string('password', 255); // bcrypt / argon2
 
-            // Identity
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('username')->unique()->nullable();
-            $table->string('password');
+            $table->string('phone', 20)->nullable();       // E.164 format
+            $table->string('avatar', 150)->nullable();     // path file saja
 
             // Status & security
             $table->boolean('is_active')->default(true);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamp('last_login_at')->nullable();
-            $table->string('last_login_ip', 45)->nullable();
+            $table->enum('status', ['active','suspend'])->default('active');
+            $table->timestampTz('email_verified_at')->nullable();
+            $table->timestampTz('last_login_at')->nullable();
+            $table->string('last_login_ip', 45)->nullable(); 
+            $table->timestampTz('last_activity_at')->nullable();
 
-            // Relation (explicit table)
-            $table->foreignId('role_id')
-                ->nullable()
-                ->constrained('ms_roles')
-                ->nullOnDelete();
-
-            $table->foreignId('tenant_id')
-                ->nullable()
-                ->constrained('ms_tenants')
-                ->nullOnDelete();
+            // Relation
+            $table->foreignId('role_id')->nullable()->constrained('ms_roles')->nullOnDelete();
+            $table->foreignId('tenant_id')->nullable()->constrained('ms_tenants')->nullOnDelete();
 
             // Audit
-            $table->timestamps();
-            $table->softDeletes();
+            $table->timestampsTz();
+            $table->softDeletesTz();
+
+            // Index 
+            $table->index(['tenant_id', 'is_active']);
+            $table->index(['tenant_id', 'role_id']);
         });
+
 
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

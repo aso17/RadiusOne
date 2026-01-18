@@ -13,7 +13,7 @@ class ms_user extends Authenticatable
     protected $table = 'ms_users';
 
     protected $fillable = [
-        'name',
+        'full_name',
         'email',
         'username',
         'password',
