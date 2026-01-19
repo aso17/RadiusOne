@@ -12,42 +12,33 @@ return new class extends Migration
     public function up(): void
     {
        Schema::create('routers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('tenant_id');
+            $table->id();
+            $table->foreignId('tenant_id')->constrained('ms_tenants')->cascadeOnDelete();
 
             $table->string('router_name', 100);
             $table->string('code', 50)->nullable();
 
-            $table->enum('connection_type', [
-                'VPN_RADIUS',
-                'IP_PUBLIC',
-                'LOCAL'
-            ]);
+            $table->enum('connection_type', ['VPN_RADIUS','IP_PUBLIC','LOCAL'])->index();
 
-            $table->ipAddress('ip_address');
+            $table->ipAddress('ip_address')->nullable();
             $table->unsignedSmallInteger('api_port')->default(8728);
 
             $table->string('username')->nullable();
-            $table->text('password')->nullable();
-            $table->text('secret')->nullable();
+            $table->text('password')->nullable(); // encrypt
+            $table->text('secret')->nullable();   // encrypt
 
-            $table->boolean('snmp_enabled')->default(false);
+            $table->boolean('snmp_enabled')->default(false)->index();
             $table->string('snmp_community')->nullable();
             $table->unsignedSmallInteger('snmp_port')->default(161);
 
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(true)->index();
             $table->timestampTz('last_seen_at')->nullable();
 
             $table->timestampsTz();
 
             $table->unique(['tenant_id', 'ip_address']);
-            $table->index('tenant_id');
-
-            $table->foreign('tenant_id')
-                ->references('id')
-                ->on('ms_tenants')
-                ->onDelete('cascade');
         });
+
 
     }
 
