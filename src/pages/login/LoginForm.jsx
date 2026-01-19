@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { rules } from "../../utils/validators/rules";
-import { useFormValidation } from "../../hooks/useFormValidation";
 import { inputClasses } from "../../utils/validators/inputClasses";
+import { useFormValidation } from "../../hooks/useFormValidation";
 import SubmitButton from "../../components/SubmitButton";
 
 export default function LoginForm({ project, isSubmitting, onSubmit }) {

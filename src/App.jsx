@@ -1,52 +1,35 @@
+import { useState, useEffect } from "react";
 import AppRoutes from "./routes/Index";
+import CenterToast from "./components/common/CenterToast"; // Pastikan path benar
 
 export default function App() {
-  return <AppRoutes />;
+  const [toast, setToast] = useState({
+    message: "",
+    type: "success",
+  });
+
+  useEffect(() => {
+    const handleToastEvent = (event) => {
+      setToast({
+        message: event.detail.message,
+        type: event.detail.type,
+      });
+    };
+
+    window.addEventListener("global-toast", handleToastEvent);
+
+    return () => window.removeEventListener("global-toast", handleToastEvent);
+  }, []);
+
+  return (
+    <>
+      <AppRoutes />
+
+      <CenterToast
+        message={toast.message}
+        type={toast.type}
+        onClose={() => setToast({ ...toast, message: "" })}
+      />
+    </>
+  );
 }
-
-// import { useState } from 'react'
-// import Todo from './components/Todo'
-// import './App.css'
-
-// function App() {
-
-//   const [todo, setTodo] = useState("");
-//   const [todos, setTodos] = useState([]);
-
-//   const addTodo = () => {
-//     if (todo.trim() === "") return;
-
-//     setTodos([
-//       ...todos,
-//       { id: Date.now(), text: todo, completed: false },
-//     ]);
-//     setTodo("");
-//   };
-
-//   const toggleTodo = (id) => {
-//     setTodos(
-//       todos.map((item) =>
-//         item.id === id
-//           ? { ...item, completed: !item.completed }
-//           : item
-//       )
-//     );
-//   };
-
-//   const deleteTodo = (id) => {
-//     setTodos(todos.filter((item) => item.id !== id));
-//   };
-
-//   return (
-//     <Todo
-//       todo={todo}
-//       todos={todos}
-//       setTodo={setTodo}
-//       addTodo={addTodo}
-//       toggleTodo={toggleTodo}
-//       deleteTodo={deleteTodo}
-//     />
-//   );
-// }
-
-// export default App

@@ -1,6 +1,9 @@
-// src/services/ServerNasService.jsx
+import api from "./api";
 
 const ServerNasService = {
+  // =========================
+  // 🔹 Dummy Data (DO NOT DELETE)
+  // =========================
   getAll: async () => {
     // Simulasi delay API
     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -169,6 +172,29 @@ const ServerNasService = {
         },
       ],
     };
+  },
+
+  // =========================
+  // 🔹 Real API Services
+  // =========================
+  getRouters: (params) => {
+    return api.get("/routers", { params });
+  },
+
+  createRouter: (payload) => {
+    return api.post("/routers", payload);
+  },
+
+  updateRouter: (id, payload) => {
+    return api.put(`/routers/${id}`, payload);
+  },
+
+  deleteRouter: (id) => {
+    return api.delete(`/routers/${id}`);
+  },
+
+  getRouterById: (id) => {
+    return api.get(`/routers/${id}`);
   },
 };
 

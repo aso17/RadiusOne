@@ -4,7 +4,7 @@ import { ProjectContext } from "../../context/ProjectContext";
 import { useAuth } from "../../context/AuthContext";
 import LoadingDots from "../../components/common/LoadingDots";
 import AppHead from "../../components/common/AppHead";
-import Toast from "../../components/common/Toast";
+import Toast from "../../components/common/CenterToast";
 import LoginForm from "./LoginForm";
 
 export default function Login() {

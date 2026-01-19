@@ -7,6 +7,7 @@ import {
 } from "../services/AuthService";
 
 import { getProjectInfo } from "../services/projectService";
+import { SetWithExpiry } from "../utils/SetWithExpiry";
 
 const AuthContext = createContext(null);
 
@@ -42,12 +43,10 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const { data } = await loginApi(credentials);
-
-      localStorage.setItem("access_token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      // 🔑 simpan branding tenant
-      localStorage.setItem("project_name", data.user.tenant.slug);
-      localStorage.setItem("project_logo_path", data.user.tenant.logo_path);
+      SetWithExpiry("access_token", data.token, 15); // 1 day expiry
+      SetWithExpiry("user", data.user, 15);
+      SetWithExpiry("project_name", data.user.tenant.slug, 15);
+      SetWithExpiry("project_logo_path", data.user.tenant.logo_path, 15);
 
       setUser(data.user);
 

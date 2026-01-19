@@ -12,6 +12,10 @@ export default {
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui"],
       },
+      fontSize: {
+        xxs: "0.625rem", // 10px
+        tiny: "0.5rem", // 8px
+      },
     },
   },
   plugins: [],
