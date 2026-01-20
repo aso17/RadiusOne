@@ -32,7 +32,7 @@ class CorsMiddleware
             $cacheKey = "cors_allowed_domain:" . $host;
 
             $isAllowed = \Illuminate\Support\Facades\Cache::remember($cacheKey, now()->addDay(), function () use ($host) {
-                return DB::table('ms_tenants')
+                return DB::table('Ms_tenants')
                     ->where('domain', $host)
                     ->where('is_active', true)
                     ->exists();

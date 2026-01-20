@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('ms_modules', function (Blueprint $table) {
+        Schema::create('Ms_modules', function (Blueprint $table) {
             $table->id();
 
             // Identity
@@ -29,6 +29,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('ms_modules');
+        Schema::dropIfExists('Ms_modules');
     }
 };

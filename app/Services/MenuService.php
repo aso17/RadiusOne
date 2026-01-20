@@ -8,7 +8,7 @@ class MenuService
 {
     public static function getMenuByRole(int $roleId)
     {
-        return Cache::remember("menu_permission:role:{$roleId}", 3600, function () use ($roleId) {
+        return Cache::remember("Menu_permission:role:{$roleId}", 3600, function () use ($roleId) {
             $rows = MenuRepository::getByRole($roleId);
 
             $menus = [];

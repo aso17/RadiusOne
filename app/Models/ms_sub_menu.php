@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ms_sub_menu extends Model
+class Ms_sub_menu extends Model
 {
-    protected $table = 'ms_sub_menus';
+    protected $table = 'Ms_sub_menus';
 
     protected $fillable = [
         'menu_id',
@@ -19,6 +19,6 @@ class ms_sub_menu extends Model
 
     public function menu()
     {
-        return $this->belongsTo(ms_menu::class, 'menu_id');
+        return $this->belongsTo(Ms_menu::class, 'menu_id');
     }
 }

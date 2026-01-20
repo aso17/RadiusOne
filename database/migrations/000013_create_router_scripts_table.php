@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('router_scripts', function (Blueprint $table) {
+        Schema::create('Router_scripts', function (Blueprint $table) {
             $table->bigIncrements('id');
 
             $table->unsignedBigInteger('tenant_id');
@@ -25,11 +25,11 @@ return new class extends Migration
 
             $table->foreign('tenant_id')
                 ->references('id')
-                ->on('ms_tenants');
+                ->on('Ms_tenants');
 
             $table->foreign('router_id')
                 ->references('id')
-                ->on('routers')
+                ->on('Routers')
                 ->onDelete('cascade');
         });
 
@@ -41,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('router_scripts');
+        Schema::dropIfExists('Router_scripts');
     }
 };

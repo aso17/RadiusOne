@@ -8,12 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('ms_sub_menus', function (Blueprint $table) {
+        Schema::create('Ms_sub_menus', function (Blueprint $table) {
             $table->id();
 
             // Relation
             $table->foreignId('menu_id')
-                  ->constrained('ms_menus')
+                  ->constrained('Ms_menus')
                   ->cascadeOnDelete();
 
             // Identity
@@ -34,6 +34,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('ms_sub_menus');
+        Schema::dropIfExists('Ms_sub_menus');
     }
 };

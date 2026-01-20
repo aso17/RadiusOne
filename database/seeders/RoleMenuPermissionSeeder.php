@@ -12,10 +12,10 @@ class RoleMenuPermissionSeeder extends Seeder
         $now = Carbon::now();
 
         // Ambil role ID by code
-        $roles = DB::table('ms_roles')->pluck('id', 'code');
+        $roles = DB::table('Ms_roles')->pluck('id', 'code');
 
         // Ambil semua menu
-        $menus = DB::table('ms_menus')
+        $menus = DB::table('Ms_menus')
             ->select('id', 'code', 'module_id')
             ->get();
 
@@ -102,7 +102,7 @@ class RoleMenuPermissionSeeder extends Seeder
             );
         }
 
-        DB::table('ms_role_menu_permissions')->insert($permissions);
+        DB::table('Ms_role_menu_permissions')->insert($permissions);
     }
 
     /**

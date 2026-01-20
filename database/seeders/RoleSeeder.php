@@ -12,7 +12,7 @@ class RoleSeeder extends Seeder
     {
         $now = Carbon::now();
 
-        DB::table('ms_roles')->insert([
+        DB::table('Ms_roles')->insert([
             [
                 'role_name' => 'Super Admin',
                 'code' => 'SUPER_ADMIN',

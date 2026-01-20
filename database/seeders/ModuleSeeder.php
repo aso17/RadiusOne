@@ -11,7 +11,7 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         $now = Carbon::now();
-        DB::table('ms_modules')->insert([
+        DB::table('Ms_modules')->insert([
             [
                 'module_name' => 'Main',
                 'code' => 'MAIN',

@@ -12,8 +12,8 @@ class MenuSeeder extends Seeder
     {
         $now = Carbon::now();
 
-        $mainModuleId    = DB::table('ms_modules')->where('code', 'MAIN')->value('id');
-        $systemModuleId  = DB::table('ms_modules')->where('code', 'SYSTEM')->value('id');
+        $mainModuleId    = DB::table('Ms_modules')->where('code', 'MAIN')->value('id');
+        $systemModuleId  = DB::table('Ms_modules')->where('code', 'SYSTEM')->value('id');
 
         /*
         |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ class MenuSeeder extends Seeder
         ];
 
         foreach ($flatMenus as $menu) {
-            DB::table('ms_menus')->insert([
+            DB::table('Ms_menus')->insert([
                 'module_id'  => $mainModuleId,
                 'code'       => $menu[0],
                 'menu_name'  => $menu[1],
@@ -52,7 +52,7 @@ class MenuSeeder extends Seeder
         | VOUCHER (PARENT + CHILD)
         |--------------------------------------------------------------------------
         */
-        $voucherId = DB::table('ms_menus')->insertGetId([
+        $voucherId = DB::table('Ms_menus')->insertGetId([
             'module_id'  => $mainModuleId,
             'code'       => 'VOUCHER',
             'menu_name'  => 'Voucher',
@@ -75,7 +75,7 @@ class MenuSeeder extends Seeder
         ];
 
         foreach ($voucherChildren as $i => $child) {
-            DB::table('ms_menus')->insert([
+            DB::table('Ms_menus')->insert([
                 'module_id'  => $mainModuleId,
                 'code'       => $child[0],
                 'menu_name'  => $child[1],
@@ -94,7 +94,7 @@ class MenuSeeder extends Seeder
         | LANGGANAN (PARENT + CHILD)
         |--------------------------------------------------------------------------
         */
-        $langgananId = DB::table('ms_menus')->insertGetId([
+        $langgananId = DB::table('Ms_menus')->insertGetId([
             'module_id'  => $mainModuleId,
             'code'       => 'LANGGANAN',
             'menu_name'  => 'Langganan',
@@ -115,7 +115,7 @@ class MenuSeeder extends Seeder
         ];
 
         foreach ($langgananChildren as $i => $child) {
-            DB::table('ms_menus')->insert([
+            DB::table('Ms_menus')->insert([
                 'module_id'  => $mainModuleId,
                 'code'       => $child[0],
                 'menu_name'  => $child[1],
@@ -134,7 +134,7 @@ class MenuSeeder extends Seeder
         | MAP (PARENT + CHILD)
         |--------------------------------------------------------------------------
         */
-        $mapId = DB::table('ms_menus')->insertGetId([
+        $mapId = DB::table('Ms_menus')->insertGetId([
             'module_id'  => $mainModuleId,
             'code'       => 'MAP',
             'menu_name'  => 'Map',
@@ -153,7 +153,7 @@ class MenuSeeder extends Seeder
         ];
 
         foreach ($mapChildren as $i => $child) {
-            DB::table('ms_menus')->insert([
+            DB::table('Ms_menus')->insert([
                 'module_id'  => $mainModuleId,
                 'code'       => $child[0],
                 'menu_name'  => $child[1],
@@ -172,7 +172,7 @@ class MenuSeeder extends Seeder
         | BILLING (PARENT + CHILD)
         |--------------------------------------------------------------------------
         */
-        $billingId = DB::table('ms_menus')->insertGetId([
+        $billingId = DB::table('Ms_menus')->insertGetId([
             'module_id'  => $mainModuleId,
             'code'       => 'BILLING',
             'menu_name'  => 'Billing',
@@ -194,7 +194,7 @@ class MenuSeeder extends Seeder
         ];
 
         foreach ($billingChildren as $i => $child) {
-            DB::table('ms_menus')->insert([
+            DB::table('Ms_menus')->insert([
                 'module_id'  => $mainModuleId,
                 'code'       => $child[0],
                 'menu_name'  => $child[1],
@@ -221,7 +221,7 @@ class MenuSeeder extends Seeder
         ];
 
         foreach ($systemMenus as $menu) {
-            DB::table('ms_menus')->insert([
+            DB::table('Ms_menus')->insert([
                 'module_id'  => $systemModuleId,
                 'code'       => $menu[0],
                 'menu_name'  => $menu[1],

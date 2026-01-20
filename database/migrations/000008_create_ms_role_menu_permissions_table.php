@@ -8,21 +8,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-       Schema::create('ms_role_menu_permissions', function (Blueprint $table) {
+       Schema::create('Ms_role_menu_permissions', function (Blueprint $table) {
             $table->id();
 
             // Relations
             $table->foreignId('role_id')
-                ->constrained('ms_roles')
+                ->constrained('Ms_roles')
                 ->cascadeOnDelete();
 
             $table->foreignId('module_id')
-                ->constrained('ms_modules')
+                ->constrained('Ms_modules')
                 ->cascadeOnDelete();
 
             // IMPORTANT: menu_id covers ALL levels
             $table->foreignId('menu_id')
-                ->constrained('ms_menus')
+                ->constrained('Ms_menus')
                 ->cascadeOnDelete();
 
             // Permissions
@@ -47,6 +47,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('ms_role_menu_permissions');
+        Schema::dropIfExists('Ms_role_menu_permissions');
     }
 };

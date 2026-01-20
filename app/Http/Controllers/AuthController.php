@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\ms_user as MsUser;
+use App\Models\Ms_user;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-       $user = MsUser::select(
+       $user = Ms_user::select(
             'id',
             'full_name',
             'email',

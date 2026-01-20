@@ -7,9 +7,9 @@ class MenuRepository
 {
     public static function getByRole(int $roleId)
     {
-       return DB::table('ms_role_menu_permissions as rp')
-        ->join('ms_menus as m', 'm.id', '=', 'rp.menu_id')
-        ->join('ms_modules as mo', 'mo.id', '=', 'rp.module_id')
+       return DB::table('Ms_role_menu_permissions as rp')
+        ->join('Ms_menus as m', 'm.id', '=', 'rp.menu_id')
+        ->join('Ms_modules as mo', 'mo.id', '=', 'rp.module_id')
         ->where('rp.role_id', $roleId)
         ->where('rp.is_active', true)
         ->where('m.is_active', true)

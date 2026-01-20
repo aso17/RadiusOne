@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('router_snmp_interfaces', function (Blueprint $table) {
+       Schema::create('Router_snmp_interfaces', function (Blueprint $table) {
 
             $table->bigIncrements('id');
             $table->unsignedBigInteger('router_id');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->index('router_id');
             $table->foreign('router_id')
                 ->references('id')
-                ->on('routers')
+                ->on('Routers')
                 ->onDelete('cascade');
         });
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('router_snmp_interfaces');
+        Schema::dropIfExists('Router_snmp_interfaces');
     }
 };

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ms_users', function (Blueprint $table) {
+        Schema::create('Ms_users', function (Blueprint $table) {
             $table->bigIncrements('id'); 
             $table->string('full_name', 100);
             $table->string('email', 150)->unique();
@@ -30,8 +30,8 @@ return new class extends Migration
             $table->timestampTz('last_activity_at')->nullable();
 
             // Relation
-            $table->foreignId('role_id')->nullable()->constrained('ms_roles')->nullOnDelete();
-            $table->foreignId('tenant_id')->nullable()->constrained('ms_tenants')->nullOnDelete();
+            $table->foreignId('role_id')->nullable()->constrained('Ms_roles')->nullOnDelete();
+            $table->foreignId('tenant_id')->nullable()->constrained('Ms_tenants')->nullOnDelete();
 
             // Audit
             $table->timestampsTz();
@@ -56,7 +56,7 @@ return new class extends Migration
       Schema::create('log_user_login', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')
-            ->constrained('ms_users')
+            ->constrained('Ms_users')
             ->cascadeOnDelete();
 
         $table->ipAddress('ip_address');
@@ -77,7 +77,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('log_user_login');
         Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('ms_users');
+        Schema::dropIfExists('Ms_users');
     }
 
 };

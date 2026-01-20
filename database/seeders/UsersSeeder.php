@@ -15,18 +15,18 @@ class UsersSeeder extends Seeder
         $now = Carbon::now();
 
         // Ambil roles (key by code)
-        $roles = DB::table('ms_roles')
+        $roles = DB::table('Ms_roles')
             ->whereIn('code', ['SUPER_ADMIN', 'ADMIN', 'USER'])
             ->pluck('id', 'code')
             ->toArray();
 
         // Ambil tenant default
-        $defaultTenantId = DB::table('ms_tenants')
-            ->where('code', 'R001')
+        $defaultTenantId = DB::table('Ms_tenants')
+            ->where('code', 'TEN-001')
             ->value('id');
 
         if (!$defaultTenantId) {
-            throw new \Exception('Tenant default (code: R001) belum ada. Jalankan TenantsSeeder dulu.');
+            throw new \Exception('Tenant default (code: TEN-001) belum ada. Jalankan TenantsSeeder dulu.');
         }
 
         $users = [
@@ -80,7 +80,7 @@ class UsersSeeder extends Seeder
         })->toArray();
 
         // Gunakan upsert agar tidak dobel saat seeding ulang
-        DB::table('ms_users')->upsert(
+        DB::table('Ms_users')->upsert(
             $payload,
             ['email'], // unique key
             ['full_name','username','role_id','tenant_id','status','is_active','updated_at']

@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('ms_role_modules', function (Blueprint $table) {
+        Schema::create('Ms_role_modules', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('role_id')
-                  ->constrained('ms_roles')
+                  ->constrained('Ms_roles')
                   ->cascadeOnDelete();
 
             $table->foreignId('module_id')
-                  ->constrained('ms_modules')
+                  ->constrained('Ms_modules')
                   ->cascadeOnDelete();
 
             // Prevent duplicate mapping
@@ -26,6 +26,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('ms_role_modules');
+        Schema::dropIfExists('Ms_role_modules');
     }
 };

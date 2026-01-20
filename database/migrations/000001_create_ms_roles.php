@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ms_roles', function (Blueprint $table) {
+        Schema::create('Ms_roles', function (Blueprint $table) {
             $table->id();
 
             // Identity
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ms_roles');
+        Schema::dropIfExists('Ms_roles');
     }
 };

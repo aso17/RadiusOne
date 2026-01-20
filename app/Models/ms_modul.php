@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ms_modul extends Model
+class Ms_modul extends Model
 {
-    protected $table = 'ms_modules';
+    protected $table = 'Ms_modules';
 
     protected $fillable = [
         'module_name',

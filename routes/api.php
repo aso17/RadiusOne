@@ -21,6 +21,8 @@ Route::middleware('api-public')->group(function () {
 | AUTH API (Grup 'api' untuk Statefulness)
 |--------------------------------------------------------------------------
 */
+
+
 Route::middleware('api')->group(function () {
     
     Route::post('/login', [AuthController::class, 'login']);

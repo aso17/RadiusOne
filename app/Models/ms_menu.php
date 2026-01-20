@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ms_menu extends Model
+class Ms_menu extends Model
 {
-    protected $table = 'ms_menus';
+    protected $table = 'Ms_menus';
 
     protected $fillable = [
         'module_id',
@@ -20,6 +20,6 @@ class ms_menu extends Model
 
     public function module()
     {
-        return $this->belongsTo(ms_modul::class, 'module_id');
+        return $this->belongsTo(Ms_modul::class, 'module_id');
     }
 }

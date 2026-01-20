@@ -6,12 +6,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens; 
 
-class ms_user extends Authenticatable
+class Ms_user extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens; 
 
-    protected $table = 'ms_users';
-
+    protected $table = 'Ms_users';
     protected $fillable = [
         'full_name',
         'email',
@@ -40,11 +39,11 @@ class ms_user extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(ms_role::class, 'role_id');
+        return $this->belongsTo(Ms_role::class, 'role_id');
     }
 
     public function tenant()
     {
-        return $this->belongsTo(ms_tenant::class, 'tenant_id');
+        return $this->belongsTo(Ms_tenant::class, 'tenant_id');
     }
 }

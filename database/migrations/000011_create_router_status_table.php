@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('router_status', function (Blueprint $table) {
+       Schema::create('Router_status', function (Blueprint $table) {
             $table->unsignedBigInteger('router_id')->primary();
 
             $table->integer('online_users')->default(0);
@@ -28,7 +28,7 @@ return new class extends Migration
 
             $table->foreign('router_id')
                 ->references('id')
-                ->on('routers')
+                ->on('Routers')
                 ->onDelete('cascade');
         });
 
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('router_status');
+        Schema::dropIfExists('Router_status');
     }
 };

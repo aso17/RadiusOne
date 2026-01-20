@@ -4,12 +4,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ms_tenant extends Model
+class Ms_tenant extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'ms_tenants';
-
+    protected $table = 'Ms_tenants';
     protected $fillable = [
         'name',
         'slug',
@@ -30,11 +29,11 @@ class ms_tenant extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(ms_user::class, 'created_by');
+        return $this->belongsTo(Ms_user::class, 'created_by');
     }
 
     public function updatedBy()
     {
-        return $this->belongsTo(ms_user::class, 'updated_by');
+        return $this->belongsTo(Ms_user::class, 'updated_by');
     }
 }

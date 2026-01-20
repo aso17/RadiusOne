@@ -11,29 +11,34 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('ms_tenants', function (Blueprint $table) {
-          
+       Schema::create('Ms_tenants', function (Blueprint $table) {
             $table->id();
             // Identity
             $table->string('name', 150);
-            $table->string('slug', 50)->unique();
-            $table->string('code', 20)->unique();
-            $table->string('domain', 150)->unique()->nullable();
+            $table->string('slug', 150)->unique()->index(); 
+            $table->string('code', 20)->unique(); 
+            $table->string('domain', 150)->unique()->nullable(); 
+
+            // Contact & Business (Tambahan Penting)
+            $table->string('email', 100)->nullable(); 
+            $table->string('phone', 20)->nullable();
+            $table->text('address')->nullable();
 
             // Branding
             $table->string('logo_path')->nullable();
-            $table->string('primary_color', 10)->default('#2563EB');
+            $table->string('primary_color', 7)->default('#2563EB'); 
             $table->string('theme', 20)->default('light');
 
-            // Status
-            $table->boolean('is_active')->default(true);
+            // Subscription & Status (Kritis untuk SaaS)
+            $table->boolean('is_active')->default(true)->index();
+            $table->timestamp('subscription_ends_at')->nullable(); 
+        
+            // Audit
+            $table->string('created_by', 100)->nullable(); 
+            $table->string('updated_by', 100)->nullable();
 
-            // Audit (string, NO FK)
-            $table->string('created_by', 50)->nullable(); // system / admin@email
-            $table->string('updated_by', 50)->nullable();
-
-            $table->timestamps();
-            $table->softDeletes();
+            $table->timestampsTz(); 
+            $table->softDeletesTz();
         });
 
     }
@@ -43,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ms_tenants');
+        Schema::dropIfExists('Ms_tenants');
     }
 };
