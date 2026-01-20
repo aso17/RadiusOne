@@ -175,13 +175,14 @@ const ServerNasService = {
   },
 
   // =========================
-  // 🔹 Real API Services
+  // 🔹  API Services
   // =========================
   getRouters: (params) => {
     return api.get("/routers", { params });
   },
 
   createRouter: (payload) => {
+    console.log("Payload to createRouter:", payload);
     return api.post("/routers", payload);
   },
 

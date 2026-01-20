@@ -1,6 +1,5 @@
 import axios from "axios";
 import { showToast } from "../utils/Toast";
-// Import helper storage yang sudah kita buat sebelumnya
 import { getWithExpiry } from "../utils/SetWithExpiry";
 
 const api = axios.create({
@@ -15,12 +14,6 @@ const api = axios.create({
 // --- Request Interceptor ---
 api.interceptors.request.use(
   (config) => {
-    /**
-     * PERBAIKAN:
-     * Jangan gunakan localStorage.getItem("access_token") langsung.
-     * Gunakan getWithExpiry agar mendapatkan string token murni
-     * dan mengecek apakah sudah kadaluarsa sebelum request dikirim.
-     */
     const token = getWithExpiry("access_token");
 
     if (token) {
@@ -33,40 +26,41 @@ api.interceptors.request.use(
 
 // --- Response Interceptor ---
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
     const { response } = error;
-    const message = response?.data?.message || "Terjadi kesalahan pada sistem";
+    const message = response?.data?.message || "A system error has occurred.";
 
     if (response) {
       switch (response.status) {
         case 401:
-          // Unauthorized: Terjadi jika token salah, expired di server, atau salah format
-          showToast("Sesi habis, silakan login kembali", "error");
+          // Unauthorized: token invalid / expired
+          showToast("Session expired. Please log in again.", "error");
 
-          // Bersihkan semua data karena sesi sudah tidak valid
+          // Clear all stored data
           localStorage.clear();
 
-          // Redirect ke login jika tidak sedang di halaman login
+          // Redirect to login page
           if (window.location.pathname !== "/login") {
             window.location.href = "/login";
           }
           break;
 
         case 403:
-          showToast("Anda tidak memiliki akses (Forbidden)", "error");
+          showToast(
+            "You do not have permission to access this resource.",
+            "error",
+          );
           break;
 
         case 422:
-          // Error validasi dari Laravel (misal email sudah terdaftar)
+          // Laravel validation error
           showToast(message, "error");
           break;
 
         case 500:
           showToast(
-            "Server sedang bermasalah (Internal Server Error)",
+            "The server is experiencing problems (Internal Server Error).",
             "error",
           );
           break;
@@ -76,10 +70,13 @@ api.interceptors.response.use(
           break;
       }
     } else if (error.request) {
-      // Masalah koneksi jaringan
-      showToast("Koneksi gagal. Periksa jaringan internet Anda.", "error");
+      // Network / connection error
+      showToast(
+        "Connection failed. Please check your internet connection.",
+        "error",
+      );
     } else {
-      showToast("Terjadi kesalahan yang tidak terduga.", "error");
+      showToast("An unexpected error has occurred.", "error");
     }
 
     return Promise.reject(error);

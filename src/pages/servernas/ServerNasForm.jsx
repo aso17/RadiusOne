@@ -1,15 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import SubmitButton from "../../components/SubmitButton";
 import { rules } from "../../utils/validators/rules";
 import { inputClasses } from "../../utils/validators/inputClasses";
 import { useFormValidation } from "../../hooks/useFormValidation";
+import ServerNasService from "../../services/ServerNasService";
 
-export default function ServerNasForm({
-  open,
-  onClose,
-  onSubmit,
-  isSubmitting,
-}) {
+export default function ServerNasForm({ open, onClose, initialData = null }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const { values, errors, handleChange, validate, setValues, setErrors } =
     useFormValidation(
       { router_name: "", connection_type: "", ip_address: "" },
@@ -32,37 +30,60 @@ export default function ServerNasForm({
     );
 
   useEffect(() => {
-    if (!open) {
-      setValues({ router_name: "", connection_type: "", ip_address: "" });
+    if (open) {
+      if (initialData) {
+        setValues({
+          router_name: initialData.router_name || "",
+          connection_type: initialData.connection_type || "",
+          ip_address: initialData.ip_address || "",
+        });
+      } else {
+        setValues({ router_name: "", connection_type: "", ip_address: "" });
+      }
       setErrors({});
     }
-  }, [open, setValues, setErrors]);
+  }, [open, initialData, setValues, setErrors]);
 
-  // 2. HANDLE PERUBAHAN TYPE TANPA VALIDASI OTOMATIS
   const handleConnectionTypeChange = (e) => {
     const newType = e.target.value;
+    handleChange("connection_type", newType);
+
     if (newType !== "IP_PUBLIC") {
-      setValues((prev) => ({
-        ...prev,
-        connection_type: newType,
-        ip_address: "",
-      }));
-    } else {
-      handleChange("connection_type", newType);
+      setValues((prev) => ({ ...prev, ip_address: "" }));
+      setErrors((prev) => ({ ...prev, ip_address: null }));
     }
   };
 
-  // 3. SATU-SATUNYA TEMPAT VALIDASI JALAN
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validate()) return; // Validasi baru dicek di sini
+    if (isSubmitting) return;
+    if (!validate()) return;
 
     const payload = {
-      ...values,
+      router_name: values.router_name.trim(),
+      connection_type: values.connection_type,
       ip_address:
-        values.connection_type === "IP_PUBLIC" ? values.ip_address : null,
+        values.connection_type === "IP_PUBLIC"
+          ? values.ip_address.trim()
+          : null,
     };
-    onSubmit(payload);
+
+    try {
+      setIsSubmitting(true);
+
+      if (initialData?.id) {
+        await ServerNasService.updateRouter(initialData.id, payload);
+      } else {
+        await ServerNasService.createRouter(payload);
+      }
+
+      onClose(); // tutup modal setelah sukses
+    } catch (err) {
+      console.error("Submit failed", err);
+      alert(err.response?.data?.message || "Gagal menyimpan data");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!open) return null;
@@ -71,7 +92,7 @@ export default function ServerNasForm({
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
       <div className="bg-white rounded-xl w-full max-w-sm p-6 shadow-lg">
         <h2 className="text-xxs font-bold mb-4 text-slate-700 uppercase tracking-wide">
-          Add Router
+          {initialData ? "Edit Router" : "Add Router"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xxs">
@@ -81,10 +102,8 @@ export default function ServerNasForm({
               Router Name
             </label>
             <input
-              name="router_name"
               value={values.router_name}
               onChange={(e) => handleChange("router_name", e.target.value)}
-              placeholder="Enter router name"
               className={inputClasses({ error: !!errors.router_name })}
             />
             {errors.router_name && (
@@ -100,7 +119,6 @@ export default function ServerNasForm({
               Connection Type
             </label>
             <select
-              name="connection_type"
               value={values.connection_type}
               onChange={handleConnectionTypeChange}
               className={inputClasses({ error: !!errors.connection_type })}
@@ -123,10 +141,8 @@ export default function ServerNasForm({
                 IP Address
               </label>
               <input
-                name="ip_address"
                 value={values.ip_address}
                 onChange={(e) => handleChange("ip_address", e.target.value)}
-                placeholder="Enter public IP address"
                 className={inputClasses({ error: !!errors.ip_address })}
               />
               {errors.ip_address && (
@@ -145,9 +161,10 @@ export default function ServerNasForm({
             >
               Cancel
             </button>
+
             <SubmitButton
               isSubmitting={isSubmitting}
-              label="Save"
+              label={initialData ? "Update" : "Save"}
               loadingLabel="Saving..."
               color="#2563eb"
               fullWidth={false}

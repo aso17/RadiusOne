@@ -43,10 +43,11 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const { data } = await loginApi(credentials);
-      SetWithExpiry("access_token", data.token, 15); // 1 day expiry
-      SetWithExpiry("user", data.user, 15);
-      SetWithExpiry("project_name", data.user.tenant.slug, 15);
-      SetWithExpiry("project_logo_path", data.user.tenant.logo_path, 15);
+      SetWithExpiry("access_token", data.token, 1440);
+      SetWithExpiry("user", data.user, 1440);
+
+      localStorage.setItem("project_name", data.user.tenant.slug);
+      localStorage.setItem("project_logo_path", data.user.tenant.logo_path);
 
       setUser(data.user);
 
